@@ -230,15 +230,34 @@ section{position:relative}
 .rooms-photo::after{content:"";position:absolute;inset:0;background:linear-gradient(200deg,transparent 45%,rgba(10,9,8,.55));pointer-events:none}
 .cap{position:absolute;left:18px;bottom:16px;z-index:1;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--bone-dim);opacity:var(--e)}
 
-/* ---------- stage: the lineup, set plainly so every name can be read ---------- */
+/* ---------- stage: the bill ----------
+   The section pins while you scroll through it and each name takes the stage in turn, one at a
+   time, large. The full list sits underneath the whole time, the current name lit, so every name
+   is readable at any moment and nothing depends on catching it mid-motion. */
+.stage{position:relative}
+.stage-pin{padding:clamp(90px,14vh,170px) 0}
 .stage-head{display:flex;justify-content:space-between;align-items:flex-end;gap:30px;flex-wrap:wrap}
 .stage-head h2{font-size:clamp(30px,4.6vw,60px);max-width:14ch}
 .stage-head p{color:var(--bone-dim);max-width:36ch;font-size:15.5px}
-.lineup{list-style:none;display:grid;grid-template-columns:repeat(4,1fr);gap:0 clamp(24px,3vw,56px);margin-top:clamp(36px,5vw,64px);border-top:1px solid var(--line)}
-.lineup li{display:flex;align-items:baseline;gap:16px;padding:26px 0;border-bottom:1px solid var(--line)}
-.lineup li > span:last-child{font-stretch:125%;font-weight:800;font-size:clamp(22px,2.1vw,32px);letter-spacing:-.02em;line-height:1.05;text-wrap:balance}
-.lineup .idx{font-size:11px;font-weight:700;letter-spacing:.1em;color:var(--crimson-hi);flex:none;width:24px}
+.bill{margin-top:clamp(28px,5vh,56px);padding-top:clamp(20px,3vh,36px);border-top:1px solid var(--line)}
+.bill-count{font-size:12px;letter-spacing:.2em;color:var(--muted);margin-bottom:14px;display:none}
+.bill-count b{color:var(--bone);font-weight:600}
+.bill-name{display:none;position:relative;height:1.05em;font-stretch:125%;font-weight:800;font-size:clamp(34px,8.6vw,124px);line-height:1;letter-spacing:-.03em}
+.bill-name span{position:absolute;left:0;top:0;white-space:nowrap;opacity:0;transform:translateY(.4em);transition:opacity .35s var(--ease),transform .55s var(--ease)}
+.bill-name span.on{opacity:1;transform:none}
+.bill-name span.gone{opacity:0;transform:translateY(-.4em)}
+.bill-all{list-style:none;display:flex;flex-wrap:wrap;gap:12px 22px;margin-top:clamp(24px,4vh,44px);font-size:12.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.bill-all li{transition:color .3s}
+.bill-all li.on{color:var(--crimson-hi)}
 .stage .note{color:var(--muted);font-size:13px;letter-spacing:.04em;margin-top:26px}
+/* pinned: the sticky screen and the scroll length that drives it */
+.stage.pinned{height:calc(100svh + var(--bill-len,0px))}
+.stage.pinned .stage-pin{position:sticky;top:0;height:100svh;display:flex;align-items:center;padding:80px 0 30px;overflow:hidden}
+.stage.pinned .stage-pin > .wrap{width:100%}
+.stage.pinned .bill-count,.stage.pinned .bill-name{display:block}
+/* not pinned (no JS, reduced motion): the list is the whole thing, set large */
+.stage:not(.pinned) .bill-all{display:grid;grid-template-columns:repeat(4,1fr);gap:0 clamp(24px,3vw,56px);text-transform:none;letter-spacing:-.02em;font-stretch:125%;font-weight:800;font-size:clamp(22px,2.1vw,32px);color:var(--bone);margin-top:0}
+.stage:not(.pinned) .bill-all li{padding:22px 0;border-bottom:1px solid var(--line)}
 
 /* ---------- listen ---------- */
 .listen{background:radial-gradient(80% 90% at 74% 40%,#2a0c12,#140a0b 60%,var(--ink) 100%);
@@ -399,7 +418,7 @@ footer{background:var(--ink-2);border-top:1px solid var(--line);padding:clamp(60
 /* ---------- responsive ---------- */
 @media (max-width:1000px){
   .about-grid,.rooms-grid,.studio-grid,.contact-grid,.listen-grid,.kit-grid{grid-template-columns:1fr}
-  .lineup{grid-template-columns:1fr 1fr}
+  .stage:not(.pinned) .bill-all{grid-template-columns:1fr 1fr}
   .rooms-photo{position:relative;top:auto;aspect-ratio:16/10;order:-1}
   .studio-photo{order:-1}
   .kit-grid > h2{position:static}
@@ -430,9 +449,8 @@ footer{background:var(--ink-2);border-top:1px solid var(--line);padding:clamp(60
   .hero-meta div:nth-child(2){text-align:right}
   .hero-meta div:nth-child(3){display:none}
   .venue .role{display:none}
-  .lineup{grid-template-columns:1fr}
-  .lineup li{padding:20px 0}
-  .lineup li > span:last-child{font-size:clamp(24px,7vw,30px)}
+  .stage:not(.pinned) .bill-all{grid-template-columns:1fr}
+  .stage.pinned .stage-head p{display:none}
   form.booking{grid-template-columns:1fr}
   .shots{grid-template-columns:1fr}
   .foot-cols{gap:48px}

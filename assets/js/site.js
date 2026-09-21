@@ -151,6 +151,28 @@
       chap.style.setProperty('--ch-len', chLen + 'px');
     }
   }
+  /* ---------- the bill: one name at a time while the stage section is pinned ---------- */
+  var stage = $('.stage'), billNames = stage ? $$('.bill-name span', stage) : [], billAll = stage ? $$('.bill-all li', stage) : [];
+  var billNow = $('#billNow'), billPinned = false, billLen = 0, billIdx = -1;
+  function measureBill() {
+    if (!stage || !billNames.length) return;
+    billPinned = !reduced;
+    stage.classList.toggle('pinned', billPinned);
+    if (billPinned) {
+      billLen = Math.round(billNames.length * innerHeight * 0.34);
+      stage.style.setProperty('--bill-len', billLen + 'px');
+    }
+  }
+  function setBill(i) {
+    if (i === billIdx) return;
+    billIdx = i;
+    billNames.forEach(function (s, n) { s.classList.toggle('on', n === i); s.classList.toggle('gone', n < i); });
+    billAll.forEach(function (l, n) { l.classList.toggle('on', n === i); });
+    if (billNow) billNow.textContent = (i < 9 ? '0' : '') + (i + 1);
+  }
+  measureBill();
+  if (billNames.length) setBill(0);
+
   // stacked (not pinned): each chapter fills in as it comes into view
   if (chap && 'IntersectionObserver' in window) {
     var co = new IntersectionObserver(function (es) {
@@ -199,10 +221,15 @@
       setChapter(Math.round(cp * (chCount - 1)));
     }
 
+    if (billPinned) {
+      var bp = clamp(-stage.getBoundingClientRect().top / Math.max(1, billLen), 0, 1);
+      setBill(Math.min(billNames.length - 1, Math.floor(bp * billNames.length)));
+    }
+
   }
   function onScroll() { if (!ticking) { ticking = true; requestAnimationFrame(frame); } }
   addEventListener('scroll', onScroll, { passive: true });
-  addEventListener('resize', function () { measureChapters(); onScroll(); });
+  addEventListener('resize', function () { measureChapters(); measureBill(); onScroll(); });
   wide.addEventListener('change', measureChapters);
   addEventListener('load', function () { measureChapters(); frame(); });
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { measureChapters(); frame(); });
