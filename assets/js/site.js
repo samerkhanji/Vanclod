@@ -136,20 +136,10 @@
     if (reduced) words.forEach(function (w) { w.classList.add('on'); });
   }
 
-  /* ---------- chapters: pinned horizontal scroll on large screens ---------- */
-  var chap = $('.chapters'), track = $('.ch-track'), chLen = 0, chPinned = false;
-  var chNow = $('#chNow'), chBar = $('.ch-bar i'), chCount = chap ? $$('.ch', chap).length : 0;
-  var wide = matchMedia('(min-width:900px) and (min-height:620px)');
+  /* ---------- chapters ---------- */
+  var chap = $('.chapters');
   function measureChapters() {
     var h = $('.hero'); if (h) h.style.setProperty('--hero-top', Math.min(0, innerHeight - h.offsetHeight) + 'px');
-    if (!chap) return;
-    chPinned = wide.matches && !reduced;
-    chap.classList.toggle('pinned', chPinned);
-    track.style.transform = '';
-    if (chPinned) {
-      chLen = Math.max(0, track.scrollWidth - innerWidth);
-      chap.style.setProperty('--ch-len', chLen + 'px');
-    }
   }
   /* ---------- the bill: one name at a time while the stage section is pinned ---------- */
   var stage = $('.stage'), billNames = stage ? $$('.bill-name span', stage) : [], billAll = stage ? $$('.bill-all li', stage) : [];
@@ -174,23 +164,21 @@
   measureBill();
   if (billNames.length) setBill(0);
 
-  // stacked (not pinned): each chapter fills in as it comes into view
-  if (chap && 'IntersectionObserver' in window) {
+  // each chapter fills in as it comes into view
+  var chs = $$('.ch');
+  if (chap && 'IntersectionObserver' in window && !reduced) {
     var co = new IntersectionObserver(function (es) {
       es.forEach(function (e) {
-        if (e.isIntersecting && !chPinned) { e.target.classList.add('on'); co.unobserve(e.target); }
+        if (e.isIntersecting) { e.target.classList.add('on'); co.unobserve(e.target); }
       });
     }, { rootMargin: '0px 0px -20% 0px', threshold: 0.2 });
-    $$('.ch', chap).forEach(function (c) { co.observe(c); });
+    chs.forEach(function (c) { co.observe(c); });
+  } else {
+    chs.forEach(function (c) { c.classList.add('on'); });
   }
 
   /* ---------- one scroll loop ---------- */
-  var hero = $('.hero'), prog = $('.nav-progress'), secs = $$('[data-sec]'), chs = $$('.ch'), ticking = false;
-  function setChapter(i) {
-    if (chNow) chNow.textContent = '0' + (i + 1);
-    chs.forEach(function (c, n) { c.classList.toggle('on', n <= i); });
-  }
-  if (reduced) setChapter(chs.length - 1); else setChapter(0);
+  var hero = $('.hero'), prog = $('.nav-progress'), secs = $$('[data-sec]'), ticking = false;
   function frame() {
     ticking = false;
     var y = scrollY, vh = innerHeight;
@@ -215,13 +203,6 @@
       words.forEach(function (w, i) { w.classList.toggle('on', i < lit); });
     }
 
-    if (chPinned) {
-      var cp = clamp(-chap.getBoundingClientRect().top / Math.max(1, chLen), 0, 1);
-      track.style.transform = 'translate3d(' + (-cp * chLen).toFixed(1) + 'px,0,0)';
-      if (chBar) chBar.style.transform = 'scaleX(' + cp + ')';
-      setChapter(Math.round(cp * (chCount - 1)));
-    }
-
     if (billPinned) {
       var bp = clamp(-stage.getBoundingClientRect().top / Math.max(1, billLen), 0, 1);
       setBill(Math.min(billNames.length - 1, Math.floor(bp * billNames.length)));
@@ -231,7 +212,6 @@
   function onScroll() { if (!ticking) { ticking = true; requestAnimationFrame(frame); } }
   addEventListener('scroll', onScroll, { passive: true });
   addEventListener('resize', function () { measureChapters(); measureBill(); onScroll(); });
-  wide.addEventListener('change', measureChapters);
   addEventListener('load', function () { measureChapters(); frame(); });
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { measureChapters(); frame(); });
   measureChapters(); frame();

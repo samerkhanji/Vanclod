@@ -180,17 +180,12 @@ section{position:relative}
 .about .facts dd{color:var(--ink);font-weight:600}
 .about ::selection{background:var(--ink);color:var(--bone)}
 
-/* ---------- chapters ----------
-   On a large screen the four chapters ride sideways while the section is pinned.
-   Everywhere else (phones, tablets, short windows, no JS) they simply stack, so nothing
-   asks for a sideways swipe and nobody scrolls past them. */
+/* ---------- chapters: read top to bottom on every screen, each one filling in as it arrives ---------- */
 .chapters{border-top:1px solid var(--line);background:var(--ink-2)}
 .ch-pin{padding:clamp(80px,12vh,130px) 0}
 .ch-head{width:100%;display:flex;justify-content:space-between;align-items:flex-end;gap:24px;margin-bottom:clamp(30px,6vh,64px)}
 .ch-head .eyebrow{margin-bottom:0}
-.ch-count{font-size:12px;letter-spacing:.2em;color:var(--muted);display:none}
-.ch-count b{color:var(--bone);font-weight:600}
-.ch-track{display:grid;gap:0 clamp(32px,5vw,72px);padding:0 var(--gutter)}
+.ch-track{display:grid;gap:0 clamp(32px,5vw,72px);padding:0 var(--gutter);max-width:var(--maxw);margin:0 auto}
 .ch{padding:30px 0 48px;border-top:1px solid var(--line);position:relative}
 .ch::before{content:"";position:absolute;top:-4px;left:0;width:7px;height:7px;border-radius:50%;background:var(--crimson)}
 .ch .k{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-bottom:22px}
@@ -200,16 +195,11 @@ section{position:relative}
 .js .ch.on .big{color:var(--bone);-webkit-text-stroke-color:var(--bone)}
 .ch h3{font-stretch:125%;font-weight:700;font-size:clamp(19px,2vw,26px);line-height:1.15;margin-bottom:12px}
 .ch p{color:var(--bone-dim);max-width:44ch}
-.ch-bar{height:1px;background:var(--line);margin:clamp(30px,6vh,60px) var(--gutter) 0;position:relative;display:none}
-.ch-bar i{position:absolute;inset:0;background:var(--crimson);transform:scaleX(0);transform-origin:left}
-@media (min-width:600px){.ch-track{grid-template-columns:1fr 1fr}}
-.chapters.pinned{height:calc(100svh + var(--ch-len,0px))}
-.chapters.pinned .ch-pin{position:sticky;top:0;height:100svh;display:flex;flex-direction:column;justify-content:center;overflow:hidden;padding:70px 0 0}
-.chapters.pinned .ch-count,.chapters.pinned .ch-bar{display:block}
-.chapters.pinned .ch-track{display:flex;grid-template-columns:none;gap:clamp(24px,4vw,64px);will-change:transform}
-.chapters.pinned .ch{flex:none;width:min(84vw,760px);padding:34px 0 0}
-.chapters.pinned .ch .big{font-size:clamp(64px,13vw,190px)}
-.chapters.pinned .ch .big.word{font-size:clamp(38px,7.4vw,108px)}
+@media (min-width:600px){
+  .ch-track{grid-template-columns:1fr 1fr}
+  .ch .big{font-size:clamp(64px,9vw,170px)}
+  .ch .big.word{font-size:clamp(34px,4.8vw,96px)}
+}
 
 /* ---------- rooms: enters through a V notch, and the photo opens out of a triangle ---------- */
 .vnotch{position:absolute;top:-1px;left:0;right:0;height:clamp(40px,9vw,150px);background:var(--ink-2);clip-path:polygon(0 0,100% 0,50% 100%)}
