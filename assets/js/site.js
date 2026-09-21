@@ -109,7 +109,7 @@
   }
 
   /* ---------- reveals ---------- */
-  var revealables = $$('[data-reveal],[data-clip]');
+  var revealables = $$('[data-reveal]');
   if ('IntersectionObserver' in window && !reduced) {
     var ro = new IntersectionObserver(function (es) {
       es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); ro.unobserve(e.target); } });
@@ -141,6 +141,7 @@
   var chNow = $('#chNow'), chBar = $('.ch-bar i'), chCount = chap ? $$('.ch', chap).length : 0;
   var wide = matchMedia('(min-width:900px) and (min-height:620px)');
   function measureChapters() {
+    var h = $('.hero'); if (h) h.style.setProperty('--hero-top', Math.min(0, innerHeight - h.offsetHeight) + 'px');
     if (!chap) return;
     chPinned = wide.matches && !reduced;
     chap.classList.toggle('pinned', chPinned);
@@ -154,12 +155,17 @@
     track.addEventListener('scroll', function () {
       if (chPinned) return;
       var p = track.scrollLeft / Math.max(1, track.scrollWidth - track.clientWidth);
-      if (chNow) chNow.textContent = '0' + (Math.round(p * (chCount - 1)) + 1);
+      setChapter(Math.round(p * (chCount - 1)));
     }, { passive: true });
   }
 
   /* ---------- one scroll loop ---------- */
-  var heroBg = $('.hero-bg'), prog = $('.nav-progress'), ticking = false;
+  var hero = $('.hero'), prog = $('.nav-progress'), secs = $$('[data-sec]'), chs = $$('.ch'), ticking = false;
+  function setChapter(i) {
+    if (chNow) chNow.textContent = '0' + (i + 1);
+    chs.forEach(function (c, n) { c.classList.toggle('on', n <= i); });
+  }
+  if (reduced) setChapter(chs.length - 1); else setChapter(0);
   function frame() {
     ticking = false;
     var y = scrollY, vh = innerHeight;
@@ -167,7 +173,15 @@
     if (prog) prog.style.transform = 'scaleX(' + clamp(y / Math.max(1, document.documentElement.scrollHeight - vh), 0, 1) + ')';
     if (reduced) return;
 
-    if (heroBg && y < vh * 1.2) heroBg.style.transform = 'translate3d(0,' + (y * 0.18).toFixed(1) + 'px,0)';
+    if (hero && y < vh * 1.6) hero.style.setProperty('--hp', clamp(y / vh, 0, 1).toFixed(3));
+
+    // each section gets --p (0 to 1 while it enters) and --q (0 to 1 across its whole pass); its CSS does the rest
+    secs.forEach(function (el) {
+      var b = el.getBoundingClientRect();
+      if (b.bottom < -vh || b.top > vh * 2) return;
+      el.style.setProperty('--p', clamp((vh - b.top) / vh, 0, 1).toFixed(3));
+      el.style.setProperty('--q', clamp((vh - b.top) / (vh + b.height), 0, 1).toFixed(3));
+    });
 
     if (st) {
       var r = st.getBoundingClientRect();
@@ -180,7 +194,7 @@
       var cp = clamp(-chap.getBoundingClientRect().top / Math.max(1, chLen), 0, 1);
       track.style.transform = 'translate3d(' + (-cp * chLen).toFixed(1) + 'px,0,0)';
       if (chBar) chBar.style.transform = 'scaleX(' + cp + ')';
-      if (chNow) chNow.textContent = '0' + (Math.round(cp * (chCount - 1)) + 1);
+      setChapter(Math.round(cp * (chCount - 1)));
     }
 
   }

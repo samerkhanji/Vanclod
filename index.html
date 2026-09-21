@@ -51,6 +51,7 @@
   <span class="nav-progress" aria-hidden="true"></span>
 </nav>
 
+<div class="intro">
 <header class="hero" id="top">
   <div class="hero-bg">
     <picture>
@@ -74,15 +75,17 @@
   </div>
 </header>
 
-<main id="main">
-
-  <section class="statement" aria-label="In one line">
+  <section class="statement" data-sec aria-label="In one line">
+    <svg class="st-v" viewBox="0 0 600 640" aria-hidden="true"><path pathLength="1" d="M20 20H580L300 620Z"/><path pathLength="1" d="M170 112H430L300 392Z"/></svg>
     <div class="wrap">
       <p data-hot="behind|it">Twenty years shaping Lebanon's electronic music — on stage, and behind it.</p>
     </div>
   </section>
+</div>
 
-  <section class="pad rule" id="about">
+<main id="main">
+
+  <section class="about" id="about">
     <div class="wrap">
       <div class="eyebrow" data-reveal>About</div>
       <div class="about-grid">
@@ -140,6 +143,7 @@
   </section>
 
   <section class="pad" id="rooms">
+    <div class="vnotch" aria-hidden="true"></div>
     <div class="wrap">
       <div class="eyebrow" data-reveal>Built the rooms</div>
       <div class="rooms-grid">
@@ -152,7 +156,7 @@
             <li class="venue" data-reveal style="--d:3"><span class="idx num">04</span><span class="name">2ND SUN</span><span class="role">Co-founder</span></li>
           </ol>
         </div>
-        <figure class="rooms-photo" data-clip>
+        <figure class="rooms-photo" data-sec>
           <picture>
             <source type="image/webp" srcset="assets/img/floor-720.webp 720w, assets/img/floor-1200.webp 1200w" sizes="(max-width:1000px) 100vw, 46vw">
             <img src="assets/img/floor.jpg" width="1200" height="800" loading="lazy" alt="A packed dance floor under a mirror ball, hands in the air">
@@ -163,7 +167,7 @@
     </div>
   </section>
 
-  <section class="stage pad" id="stage">
+  <section class="stage pad" id="stage" data-sec>
     <div class="wrap">
       <div class="eyebrow" data-reveal>Shared the stage</div>
       <div class="stage-head">
@@ -171,22 +175,24 @@
         <p data-reveal style="--d:1">Years of sets alongside some of electronic music's defining names.</p>
       </div>
     </div>
-    <div class="marquee">
-      <div class="mtrack">
-        <span>Adriatique</span><span>Tale Of Us</span><span>Stephan Bodzin</span><span>Mathame</span><span>ARTBAT</span><span>Boris Brejcha</span><span>Kevin de Vries</span><span>Solomun</span>
-        <span aria-hidden="true">Adriatique</span><span aria-hidden="true">Tale Of Us</span><span aria-hidden="true">Stephan Bodzin</span><span aria-hidden="true">Mathame</span><span aria-hidden="true">ARTBAT</span><span aria-hidden="true">Boris Brejcha</span><span aria-hidden="true">Kevin de Vries</span><span aria-hidden="true">Solomun</span>
+    <div class="tapes">
+      <div class="tape a">
+        <div class="mtrack">
+          <span>Adriatique</span><span>Tale Of Us</span><span>Stephan Bodzin</span><span>Mathame</span><span>ARTBAT</span><span>Boris Brejcha</span><span>Kevin de Vries</span><span>Solomun</span>
+          <span aria-hidden="true">Adriatique</span><span aria-hidden="true">Tale Of Us</span><span aria-hidden="true">Stephan Bodzin</span><span aria-hidden="true">Mathame</span><span aria-hidden="true">ARTBAT</span><span aria-hidden="true">Boris Brejcha</span><span aria-hidden="true">Kevin de Vries</span><span aria-hidden="true">Solomun</span>
+        </div>
       </div>
-    </div>
-    <div class="marquee rev" aria-hidden="true">
-      <div class="mtrack">
-        <span>Solomun</span><span>Kevin de Vries</span><span>Boris Brejcha</span><span>ARTBAT</span><span>Mathame</span><span>Stephan Bodzin</span><span>Tale Of Us</span><span>Adriatique</span>
-        <span>Solomun</span><span>Kevin de Vries</span><span>Boris Brejcha</span><span>ARTBAT</span><span>Mathame</span><span>Stephan Bodzin</span><span>Tale Of Us</span><span>Adriatique</span>
+      <div class="tape b" aria-hidden="true">
+        <div class="mtrack">
+          <span>Solomun</span><span>Kevin de Vries</span><span>Boris Brejcha</span><span>ARTBAT</span><span>Mathame</span><span>Stephan Bodzin</span><span>Tale Of Us</span><span>Adriatique</span>
+          <span>Solomun</span><span>Kevin de Vries</span><span>Boris Brejcha</span><span>ARTBAT</span><span>Mathame</span><span>Stephan Bodzin</span><span>Tale Of Us</span><span>Adriatique</span>
+        </div>
       </div>
     </div>
     <div class="wrap"><p class="note">…and many others.</p></div>
   </section>
 
-  <section class="listen pad rule tint" id="listen">
+  <section class="listen pad" id="listen" data-sec>
     <div class="wrap">
       <div class="eyebrow" data-reveal>Listen &amp; follow</div>
       <div class="listen-grid">
@@ -208,6 +214,7 @@
           </div>
         </div>
         <div class="player" data-reveal style="--d:1">
+          <svg class="badge" viewBox="0 0 132 132" aria-hidden="true"><defs><path id="ring" d="M66 66m-52 0a52 52 0 1 1 104 0a52 52 0 1 1-104 0"/></defs><text><textPath href="#ring">Indie Dance · Tech House · Beirut ·</textPath></text></svg>
           <button class="player-facade" type="button">
             <span class="play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 3.5v17l15-8.5z"/></svg></span>
             <span class="t">Play Vanclod on SoundCloud</span>
@@ -218,40 +225,41 @@
     </div>
   </section>
 
-  <section class="studio pad rule" id="studio">
-    <div class="wrap">
-      <div class="studio-grid">
-        <figure class="studio-photo" data-clip>
-          <picture>
-            <source type="image/webp" srcset="assets/img/room-720.webp 720w, assets/img/room-1200.webp 1200w" sizes="(max-width:1000px) 100vw, 50vw">
-            <img src="assets/img/room.jpg" width="1200" height="800" loading="lazy" alt="Vanclod playing at the centre of a crowd, the room lit red">
-          </picture>
-        </figure>
-        <div>
-          <div class="eyebrow" data-reveal>The next chapter</div>
-          <h2 class="display" data-reveal>Now, in the studio.</h2>
-          <p data-reveal style="--d:1">Alongside a busy touring schedule, Vanclod is focused on the next chapter of his career as a producer.</p>
-          <p data-reveal style="--d:2">His studio work is a natural extension of everything he's built — drawing on decades immersed in electronic music while developing a sound that reflects his own identity rather than chasing trends.</p>
-        </div>
-      </div>
+  <section class="studio" id="studio" data-sec>
+    <div class="studio-frame">
+      <picture>
+        <source type="image/webp" srcset="assets/img/room-720.webp 720w, assets/img/room-1200.webp 1200w" sizes="100vw">
+        <img src="assets/img/room.jpg" width="1200" height="800" loading="lazy" alt="Vanclod playing at the centre of a crowd, the room lit red">
+      </picture>
+    </div>
+    <div class="wrap studio-copy">
+      <div class="eyebrow">The next chapter</div>
+      <h2 class="display">Now, in the studio.</h2>
+      <p>Alongside a busy touring schedule, Vanclod is focused on the next chapter of his career as a producer.</p>
+      <p>His studio work is a natural extension of everything he's built — drawing on decades immersed in electronic music while developing a sound that reflects his own identity rather than chasing trends.</p>
     </div>
   </section>
 
-  <section class="pad rule tint" id="dates">
+  <section class="dates pad" id="dates">
     <div class="wrap">
       <div class="eyebrow" data-reveal>Dates</div>
       <div class="dates-head">
         <h2 class="display" data-reveal>Where next.</h2>
       </div>
       <ol class="shows" id="shows" hidden></ol>
-      <div class="dates-empty" id="showsEmpty" data-reveal>
-        <p><b>No upcoming dates listed right now.</b>Follow on Instagram for announcements, or get in touch to book one.</p>
-        <a class="btn ghost" href="https://www.instagram.com/vanclod.music/" target="_blank" rel="noopener">@vanclod.music <span class="arw" aria-hidden="true">↗</span></a>
+      <div class="ticket" id="showsEmpty" data-reveal>
+        <div>
+          <div class="k">Admit one · date to be announced</div>
+          <b>No upcoming dates listed right now.</b>
+          <p>Follow on Instagram for announcements, or get in touch to book one.</p>
+        </div>
+        <div><a class="btn ghost" href="https://www.instagram.com/vanclod.music/" target="_blank" rel="noopener">@vanclod.music <span class="arw" aria-hidden="true">↗</span></a></div>
       </div>
     </div>
   </section>
 
-  <section class="contact pad rule" id="contact">
+  <section class="contact pad" id="contact" data-sec>
+    <div class="ghost-word" aria-hidden="true">Bookings</div>
     <div class="wrap">
       <div class="eyebrow" data-reveal>Bookings</div>
       <div class="contact-grid">
