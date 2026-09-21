@@ -161,15 +161,6 @@
     $$('.ch', chap).forEach(function (c) { co.observe(c); });
   }
 
-  /* ---------- endless animations run only while on screen ---------- */
-  var loops = $$('.badge');
-  if (loops.length && 'IntersectionObserver' in window) {
-    var lo = new IntersectionObserver(function (es) {
-      es.forEach(function (e) { e.target.classList.toggle('off', !e.isIntersecting); });
-    }, { rootMargin: '20% 0px' });
-    loops.forEach(function (el) { lo.observe(el); });
-  }
-
   /* ---------- one scroll loop ---------- */
   var hero = $('.hero'), prog = $('.nav-progress'), secs = $$('[data-sec]'), chs = $$('.ch'), ticking = false;
   function setChapter(i) {
