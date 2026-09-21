@@ -352,8 +352,15 @@ footer{background:var(--ink-2);border-top:1px solid var(--line);padding:clamp(60
 .foot-cols{display:flex;gap:clamp(40px,7vw,110px)}
 .foot-cols b{display:block;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:16px}
 .foot-cols a{display:block;padding:5px 0;color:var(--bone-dim);font-size:15px;transition:color .25s}
-.foot-mark{width:100%;opacity:.09;margin-bottom:34px}
-.foot-base{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;font-size:12px;color:var(--muted);letter-spacing:.06em}
+.foot-base{
+  display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:20px 40px;
+  padding-top:28px;border-top:1px solid var(--line);
+  font-size:12px;color:var(--muted);letter-spacing:.06em;
+}
+.foot-logo img{height:16px;width:auto;opacity:.92}
+.foot-meta,.foot-legal{display:flex;flex-wrap:wrap;align-items:center;gap:8px 28px}
+.foot-meta{justify-content:center}
+.foot-meta a,.foot-legal a{color:var(--bone-dim);transition:color .25s}
 
 /* ---------- press page ---------- */
 .page-head{padding:clamp(150px,22vh,230px) 0 clamp(60px,9vh,100px)}
@@ -414,6 +421,8 @@ footer{background:var(--ink-2);border-top:1px solid var(--line);padding:clamp(60
   .nav-links a:not(.btn)::after{display:none}
   .nav-links .btn{margin-top:26px;padding:16px 30px;font-size:13.5px}
   body.locked{overflow:hidden}
+  .foot-base{grid-template-columns:1fr;gap:18px;padding-top:24px}
+  .foot-meta{justify-content:flex-start}
 }
 @media (max-width:640px){
   body{font-size:16px}
@@ -427,6 +436,8 @@ footer{background:var(--ink-2);border-top:1px solid var(--line);padding:clamp(60
   form.booking{grid-template-columns:1fr}
   .shots{grid-template-columns:1fr}
   .foot-cols{gap:48px}
+  .foot-meta{flex-direction:column;align-items:flex-start;gap:10px}
+  .foot-legal{flex-direction:column;align-items:flex-start;gap:10px}
   .show,.ticket{grid-template-columns:1fr}
   .ticket > :last-child,.show > :last-child{border-left:0;border-top:2px dashed var(--line)}
   .ticket > :last-child::before,.show > :last-child::before{top:-12px;left:-12px}
@@ -457,6 +468,7 @@ footer{background:var(--ink-2);border-top:1px solid var(--line);padding:clamp(60
   .linkbtn:hover{color:var(--bone);border-color:var(--crimson)}
   .foot-cta a:hover{color:var(--bone)}
   .foot-cols a:hover,.foot-base a:hover{color:var(--bone)}
+  .foot-logo:hover img{opacity:1}
   .shot:hover img{transform:scale(1.04)}
 }
 
