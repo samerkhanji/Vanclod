@@ -151,18 +151,18 @@
       chap.style.setProperty('--ch-len', chLen + 'px');
     }
   }
-  if (chap && !chPinned) {
-    track.addEventListener('scroll', function () {
-      if (chPinned) return;
-      var p = track.scrollLeft / Math.max(1, track.scrollWidth - track.clientWidth);
-      if (chBar) chBar.style.transform = 'scaleX(' + Math.max(p, 1 / chCount) + ')';
-      setChapter(Math.round(p * (chCount - 1)));
-    }, { passive: true });
-    if (chBar) chBar.style.transform = 'scaleX(' + (1 / chCount) + ')';
+  // stacked (not pinned): each chapter fills in as it comes into view
+  if (chap && 'IntersectionObserver' in window) {
+    var co = new IntersectionObserver(function (es) {
+      es.forEach(function (e) {
+        if (e.isIntersecting && !chPinned) { e.target.classList.add('on'); co.unobserve(e.target); }
+      });
+    }, { rootMargin: '0px 0px -20% 0px', threshold: 0.2 });
+    $$('.ch', chap).forEach(function (c) { co.observe(c); });
   }
 
   /* ---------- endless animations run only while on screen ---------- */
-  var loops = $$('.tapes, .badge');
+  var loops = $$('.badge');
   if (loops.length && 'IntersectionObserver' in window) {
     var lo = new IntersectionObserver(function (es) {
       es.forEach(function (e) { e.target.classList.toggle('off', !e.isIntersecting); });
