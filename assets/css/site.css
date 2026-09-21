@@ -61,18 +61,14 @@ p{text-wrap:pretty}
   padding:16px 30px;border:1px solid var(--bone);background:var(--bone);color:var(--ink);
   transition:background .3s var(--ease),color .3s var(--ease),border-color .3s var(--ease),transform .3s var(--ease);
 }
-.btn:hover{background:var(--crimson);border-color:var(--crimson);color:#fff}
 .btn:active{transform:translateY(1px) scale(.985)}
 .btn .arw{transition:transform .3s var(--ease)}
-.btn:hover .arw{transform:translate(3px,-3px)}
 .btn.ghost{background:transparent;color:var(--bone);border-color:var(--line)}
-.btn.ghost:hover{background:transparent;border-color:var(--crimson);color:var(--bone)}
 .btn[disabled]{opacity:.55;cursor:progress}
 .tlink{
   display:inline-flex;align-items:center;gap:10px;font-size:13px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;
   color:var(--bone-dim);padding:6px 0;border-bottom:1px solid var(--line);transition:color .25s,border-color .25s;
 }
-.tlink:hover{color:var(--bone);border-color:var(--crimson)}
 
 /* ---------- nav ---------- */
 .nav{
@@ -89,8 +85,8 @@ p{text-wrap:pretty}
   color:var(--bone-dim);transition:color .25s;
 }
 .nav-links a:not(.btn)::after{content:"";position:absolute;left:0;right:0;bottom:0;height:1px;background:var(--crimson);transform:scaleX(0);transform-origin:left;transition:transform .35s var(--ease)}
-.nav-links a:not(.btn):hover,.nav-links a[aria-current]{color:var(--bone)}
-.nav-links a:not(.btn):hover::after,.nav-links a[aria-current]::after{transform:scaleX(1)}
+.nav-links a[aria-current]{color:var(--bone)}
+.nav-links a[aria-current]::after{transform:scaleX(1)}
 .nav-links .btn{padding:11px 20px;font-size:12px}
 .nav-progress{position:absolute;left:0;bottom:-1px;height:1px;width:100%;background:var(--crimson);transform:scaleX(0);transform-origin:left}
 .nav-toggle{display:none;background:none;border:none;cursor:pointer;padding:10px;margin-right:-10px}
@@ -103,8 +99,10 @@ p{text-wrap:pretty}
 /* ---------- hero ---------- */
 .intro,main{position:relative;z-index:1;background:var(--ink)}
 .hero{position:sticky;top:var(--hero-top,0px);z-index:0;min-height:100svh;display:flex;align-items:flex-end;overflow:hidden;isolation:isolate}
-.hero-bg{position:absolute;inset:0;z-index:-1;will-change:transform;transform:scale(calc(1 + var(--hp,0) * .1));filter:brightness(calc(1 - var(--hp,0) * .55))}
+.hero-bg{position:absolute;inset:0;z-index:-1;will-change:transform;transform:scale(calc(1 + var(--hp,0) * .1))}
 .hero-bg img{width:100%;height:100%;object-fit:cover;object-position:52% 30%;filter:saturate(.92) contrast(1.05);animation:heroIn 2.4s var(--ease) both}
+/* the image darkens as it scrolls away: an overlay's opacity, not a filter, so phones only composite */
+.hero-bg::after{content:"";position:absolute;inset:0;background:var(--ink);opacity:calc(var(--hp,0) * .55)}
 @keyframes heroIn{from{transform:scale(1.09);opacity:.2}to{transform:scale(1);opacity:1}}
 .hero::before{content:"";position:absolute;inset:0;z-index:-1;
   background:
@@ -189,7 +187,7 @@ section{position:relative}
 .ch-head .eyebrow{margin-bottom:0}
 .ch-count{font-size:12px;letter-spacing:.2em;color:var(--muted)}
 .ch-count b{color:var(--bone);font-weight:600}
-.ch-track{display:flex;gap:clamp(24px,4vw,64px);padding:0 var(--gutter);overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none}
+.ch-track{display:flex;gap:clamp(24px,4vw,64px);padding:0 var(--gutter);overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding-inline:var(--gutter);scrollbar-width:none}
 .ch-track::-webkit-scrollbar{display:none}
 .ch{flex:none;width:min(84vw,760px);scroll-snap-align:start;padding:34px 0 0;border-top:1px solid var(--line);position:relative}
 .ch::before{content:"";position:absolute;top:-4px;left:0;width:7px;height:7px;border-radius:50%;background:var(--crimson)}
@@ -200,12 +198,11 @@ section{position:relative}
 .js .ch.on .big{color:var(--bone);-webkit-text-stroke-color:var(--bone)}
 .ch h3{font-stretch:125%;font-weight:700;font-size:clamp(19px,2vw,26px);line-height:1.15;margin-bottom:12px}
 .ch p{color:var(--bone-dim);max-width:44ch}
-.ch-bar{height:1px;background:var(--line);margin:clamp(30px,6vh,60px) var(--gutter) 0;position:relative;display:none}
+.ch-bar{height:1px;background:var(--line);margin:clamp(30px,6vh,60px) var(--gutter) 0;position:relative}
 .ch-bar i{position:absolute;inset:0;background:var(--crimson);transform:scaleX(0);transform-origin:left}
 .chapters.pinned{height:calc(100svh + var(--ch-len,0px))}
 .chapters.pinned .ch-pin{position:sticky;top:0;height:100svh;display:flex;flex-direction:column;justify-content:center;overflow:hidden;padding:70px 0 0}
 .chapters.pinned .ch-track{overflow:visible;will-change:transform;scroll-snap-type:none}
-.chapters.pinned .ch-bar{display:block}
 
 /* ---------- rooms: enters through a V notch, and the photo opens out of a triangle ---------- */
 .vnotch{position:absolute;top:-1px;left:0;right:0;height:clamp(40px,9vw,150px);background:var(--ink-2);clip-path:polygon(0 0,100% 0,50% 100%)}
@@ -216,11 +213,8 @@ section{position:relative}
 .venues{list-style:none;border-top:1px solid var(--line)}
 .venue{display:flex;align-items:baseline;gap:22px;padding:28px 4px;border-bottom:1px solid var(--line);position:relative;transition:padding-left .45s var(--ease)}
 .venue::before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(200,23,43,.1),transparent 70%);opacity:0;transition:opacity .4s}
-.venue:hover{padding-left:18px}
-.venue:hover::before{opacity:1}
 .venue .idx{font-size:12px;color:var(--crimson-hi);font-weight:700;letter-spacing:.1em;width:28px;flex:none}
 .venue .name{font-weight:800;font-size:clamp(24px,3.6vw,44px);letter-spacing:-.015em;line-height:1;font-variation-settings:"wdth" 100;transition:font-variation-settings .5s var(--ease)}
-.venue:hover .name{font-variation-settings:"wdth" 125}
 .venue .role{margin-left:auto;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);flex:none}
 .rooms-photo{position:sticky;top:110px;aspect-ratio:4/5;overflow:hidden;background:var(--ink-3);
   clip-path:polygon(0 0,100% 0,calc(50% + var(--e) * 50%) 100%,calc(50% - var(--e) * 50%) 100%)}
@@ -240,7 +234,8 @@ section{position:relative}
 .tape.b{background:var(--bone);color:var(--ink);transform:translateY(-50%) rotate(calc(6.5deg - var(--q) * 4.5deg))}
 .mtrack{display:flex;width:max-content;animation:slide 40s linear infinite}
 .tape.b .mtrack{animation-direction:reverse;animation-duration:50s}
-.tape:hover .mtrack{animation-play-state:paused}
+/* off-screen, the endless animations stop burning the battery */
+.tapes.off .mtrack,.badge.off{animation-play-state:paused}
 .mtrack span{font-stretch:125%;font-weight:800;font-size:clamp(26px,4.6vw,62px);letter-spacing:-.02em;line-height:1;padding:0 26px;display:flex;align-items:center;gap:52px;white-space:nowrap}
 .mtrack span::after{content:"";width:0;height:0;border-left:.22em solid transparent;border-right:.22em solid transparent;border-top:.4em solid currentColor;flex:none;opacity:.8}
 @keyframes slide{to{transform:translateX(-50%)}}
@@ -259,20 +254,16 @@ section{position:relative}
 .genres span{border:1px solid var(--line);padding:9px 16px;font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--bone-dim)}
 .channels{display:grid;gap:12px}
 .channel{display:flex;align-items:center;gap:16px;padding:20px 24px;border:1px solid var(--line);background:var(--ink);transition:border-color .3s,background .3s,transform .4s var(--ease)}
-.channel:hover{border-color:var(--crimson);background:var(--ink-3);transform:translateX(6px)}
 .channel svg{width:24px;height:24px;flex:none;fill:var(--bone)}
 .channel .c-t{font-stretch:125%;font-weight:700;font-size:16px;line-height:1.15}
 .channel .c-s{font-size:12.5px;color:var(--muted)}
 .channel .arw{margin-left:auto;color:var(--muted);transition:color .3s,transform .3s var(--ease)}
-.channel:hover .arw{color:var(--crimson-hi);transform:translate(3px,-3px)}
 .player{border:1px solid var(--line);background:var(--ink);min-height:450px;display:flex;position:relative}
 .player iframe{width:100%;height:450px;border:0;display:block}
 .player-facade{flex:1;display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-end;gap:16px;padding:32px;cursor:pointer;border:0;text-align:left;
   background:linear-gradient(180deg,rgba(10,9,8,.2),rgba(10,9,8,.92)),url("../img/hero-960.webp") 60% 30%/cover}
 .player-facade .play{width:68px;height:68px;border-radius:50%;background:var(--bone);display:grid;place-items:center;transition:background .3s,transform .4s var(--ease)}
 .player-facade .play svg{width:22px;height:22px;fill:var(--ink);margin-left:3px;transition:fill .3s}
-.player-facade:hover .play{background:var(--crimson);transform:scale(1.06)}
-.player-facade:hover .play svg{fill:#fff}
 .player-facade .t{font-stretch:125%;font-weight:700;font-size:20px;line-height:1.15}
 .player-facade .s{font-size:12.5px;color:var(--bone-dim)}
 
@@ -298,8 +289,6 @@ section{position:relative}
 .ticket,.show{position:relative;display:grid;align-items:center;background:var(--ink);border:1px solid var(--line)}
 .ticket{grid-template-columns:1fr auto}
 .show{grid-template-columns:170px 1.2fr 1fr auto;transition:transform .5s var(--ease),border-color .3s}
-.show:hover,.ticket:hover{border-color:rgba(236,231,222,.3)}
-.show:hover{transform:translateX(8px)}
 .show > *,.ticket > *{padding:clamp(22px,3vw,40px)}
 .ticket > :last-child,.show > :last-child{position:relative;align-self:stretch;display:flex;align-items:center;border-left:2px dashed var(--line)}
 .ticket > :last-child::before,.ticket > :last-child::after,.show > :last-child::before,.show > :last-child::after{
@@ -326,7 +315,6 @@ section{position:relative}
 .contact-intro > p{color:var(--bone-dim);max-width:36ch;margin-bottom:34px}
 .direct{border-top:1px solid var(--line);margin-bottom:40px}
 .direct a{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:16px 2px;border-bottom:1px solid var(--line);font-size:14.5px;color:var(--bone-dim);transition:color .25s,padding-left .35s var(--ease)}
-.direct a:hover{color:var(--bone);padding-left:10px}
 .direct .k{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
 .brief{font-size:13.5px;color:var(--muted)}
 .brief b{display:block;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--bone-dim);margin-bottom:10px;font-weight:600}
@@ -359,21 +347,17 @@ form.booking{display:grid;grid-template-columns:1fr 1fr;gap:20px 18px}
 .form-note.err{color:var(--crimson-hi)}
 .form-note a{border-bottom:1px solid var(--line)}
 .linkbtn{background:none;border:0;border-bottom:1px solid var(--line);cursor:pointer;font-size:13px;color:var(--bone-dim);padding:4px 0;transition:color .25s,border-color .25s}
-.linkbtn:hover{color:var(--bone);border-color:var(--crimson)}
 
 /* ---------- footer ---------- */
 footer{background:var(--ink-2);border-top:1px solid var(--line);padding:clamp(60px,9vh,100px) 0 36px;overflow:hidden}
 .foot-top{display:flex;justify-content:space-between;gap:40px;flex-wrap:wrap;margin-bottom:clamp(50px,9vh,100px)}
 .foot-cta{font-stretch:125%;font-weight:800;font-size:clamp(26px,3.6vw,46px);line-height:1.02;letter-spacing:-.02em;max-width:14ch}
 .foot-cta a{color:var(--crimson-hi);border-bottom:2px solid currentColor;transition:color .25s}
-.foot-cta a:hover{color:var(--bone)}
 .foot-cols{display:flex;gap:clamp(40px,7vw,110px)}
 .foot-cols b{display:block;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:16px}
 .foot-cols a{display:block;padding:5px 0;color:var(--bone-dim);font-size:15px;transition:color .25s}
-.foot-cols a:hover{color:var(--bone)}
 .foot-mark{width:100%;opacity:.09;margin-bottom:34px}
 .foot-base{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;font-size:12px;color:var(--muted);letter-spacing:.06em}
-.foot-base a:hover{color:var(--bone)}
 
 /* ---------- press page ---------- */
 .page-head{padding:clamp(150px,22vh,230px) 0 clamp(60px,9vh,100px)}
@@ -392,7 +376,6 @@ footer{background:var(--ink-2);border-top:1px solid var(--line);padding:clamp(60
 .shot{position:relative;overflow:hidden;background:var(--ink-3)}
 .shot:first-child{grid-column:1 / -1}
 .shot img{width:100%;aspect-ratio:3/2;object-fit:cover;transition:transform 1.2s var(--ease)}
-.shot:hover img{transform:scale(1.04)}
 .shot .bar{position:absolute;left:0;right:0;bottom:0;display:flex;justify-content:space-between;align-items:center;gap:16px;padding:40px 18px 16px;background:linear-gradient(transparent,rgba(10,9,8,.9));font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--bone-dim)}
 .shot .bar a{color:var(--bone);border-bottom:1px solid var(--crimson);padding-bottom:2px}
 .logo-tile{border:1px solid var(--line);padding:clamp(40px,7vw,90px);display:grid;place-items:center;background:
@@ -448,7 +431,49 @@ footer{background:var(--ink-2);border-top:1px solid var(--line);padding:clamp(60
   .ticket > :last-child,.show > :last-child{border-left:0;border-top:2px dashed var(--line)}
   .ticket > :last-child::before,.show > :last-child::before{top:-12px;left:-12px}
   .ticket > :last-child::after,.show > :last-child::after{top:-12px;bottom:auto;left:auto;right:-12px}
-  .badge{right:-14px;top:-60px;width:104px;height:104px}
+  .badge{right:-12px;top:-46px;width:104px;height:104px}
+  .ghost-word{top:4px;font-size:22vw}
+  .player{min-height:380px}
+  .player iframe{height:380px}
+}
+
+/* ---------- hover only where there is a pointer: on touch a tap would otherwise stick ---------- */
+@media (hover:hover){
+  .btn:hover{background:var(--crimson);border-color:var(--crimson);color:#fff}
+  .btn:hover .arw{transform:translate(3px,-3px)}
+  .btn.ghost:hover{background:transparent;border-color:var(--crimson);color:var(--bone)}
+  .tlink:hover{color:var(--bone);border-color:var(--crimson)}
+  .nav-links a:not(.btn):hover{color:var(--bone)}
+  .nav-links a:not(.btn):hover::after{transform:scaleX(1)}
+  .venue:hover{padding-left:18px}
+  .venue:hover::before{opacity:1}
+  .venue:hover .name{font-variation-settings:"wdth" 125}
+  .tape:hover .mtrack{animation-play-state:paused}
+  .channel:hover{border-color:var(--crimson);background:var(--ink-3);transform:translateX(6px)}
+  .channel:hover .arw{color:var(--crimson-hi);transform:translate(3px,-3px)}
+  .player-facade:hover .play{background:var(--crimson);transform:scale(1.06)}
+  .player-facade:hover .play svg{fill:#fff}
+  .show:hover,.ticket:hover{border-color:rgba(236,231,222,.3)}
+  .show:hover{transform:translateX(8px)}
+  .direct a:hover{color:var(--bone);padding-left:10px}
+  .linkbtn:hover{color:var(--bone);border-color:var(--crimson)}
+  .foot-cta a:hover{color:var(--bone)}
+  .foot-cols a:hover,.foot-base a:hover{color:var(--bone)}
+  .shot:hover img{transform:scale(1.04)}
+}
+
+/* ---------- phones and tablets: the same scroll story, told with transforms and opacity only ----------
+   Per-frame clip-path and blend modes repaint the whole section on every scroll tick, which is what
+   stutters on a phone. Here each of those becomes a composited property, so the effect keeps up with the thumb. */
+@media (max-width:1000px),(pointer:coarse){
+  body::after{mix-blend-mode:normal;opacity:.05}
+  .listen{clip-path:none;overflow:hidden}
+  .listen .wrap{opacity:var(--e);transform:translateY(calc((1 - var(--e)) * 36px))}
+  .studio-frame{clip-path:none;transform:scale(calc(.84 + var(--e) * .16));transform-origin:50% 55%}
+  .studio-frame img{transform:none}
+  .rooms-photo{clip-path:none;opacity:var(--e);transform:translateY(calc((1 - var(--e)) * 24px))}
+  .rooms-photo img{transform:scale(calc(1.1 - var(--e) * .1))}
+  .nav.scrolled,.nav.solid{-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
 }
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}

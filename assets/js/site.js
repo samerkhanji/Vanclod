@@ -155,8 +155,19 @@
     track.addEventListener('scroll', function () {
       if (chPinned) return;
       var p = track.scrollLeft / Math.max(1, track.scrollWidth - track.clientWidth);
+      if (chBar) chBar.style.transform = 'scaleX(' + Math.max(p, 1 / chCount) + ')';
       setChapter(Math.round(p * (chCount - 1)));
     }, { passive: true });
+    if (chBar) chBar.style.transform = 'scaleX(' + (1 / chCount) + ')';
+  }
+
+  /* ---------- endless animations run only while on screen ---------- */
+  var loops = $$('.tapes, .badge');
+  if (loops.length && 'IntersectionObserver' in window) {
+    var lo = new IntersectionObserver(function (es) {
+      es.forEach(function (e) { e.target.classList.toggle('off', !e.isIntersecting); });
+    }, { rootMargin: '20% 0px' });
+    loops.forEach(function (el) { lo.observe(el); });
   }
 
   /* ---------- one scroll loop ---------- */
