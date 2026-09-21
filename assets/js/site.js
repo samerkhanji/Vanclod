@@ -168,7 +168,8 @@
     billIdx = i;
     billNames.forEach(function (s, n) { s.classList.toggle('on', n === i); s.classList.toggle('gone', n < i); });
     billAll.forEach(function (l, n) { l.classList.toggle('on', n === i); });
-    if (billNow) billNow.textContent = (i < 9 ? '0' : '') + (i + 1);
+    var isMore = billNames[i].classList.contains('more');
+    if (billNow) { billNow.parentNode.classList.toggle('off', isMore); if (!isMore) billNow.textContent = (i < 9 ? '0' : '') + (i + 1); }
   }
   measureBill();
   if (billNames.length) setBill(0);

@@ -240,16 +240,19 @@ section{position:relative}
 .stage-head h2{font-size:clamp(30px,4.6vw,60px);max-width:14ch}
 .stage-head p{color:var(--bone-dim);max-width:36ch;font-size:15.5px}
 .bill{margin-top:clamp(28px,5vh,56px);padding-top:clamp(20px,3vh,36px);border-top:1px solid var(--line)}
-.bill-count{font-size:12px;letter-spacing:.2em;color:var(--muted);margin-bottom:14px;display:none}
+.bill-count{font-size:12px;letter-spacing:.2em;color:var(--muted);margin-bottom:14px;display:none;transition:opacity .3s}
+.bill-count.off{opacity:0}
 .bill-count b{color:var(--bone);font-weight:600}
 .bill-name{display:none;position:relative;height:1.05em;font-stretch:125%;font-weight:800;font-size:clamp(34px,8.6vw,124px);line-height:1;letter-spacing:-.03em}
 .bill-name span{position:absolute;left:0;top:0;white-space:nowrap;opacity:0;transform:translateY(.4em);transition:opacity .35s var(--ease),transform .55s var(--ease)}
 .bill-name span.on{opacity:1;transform:none}
 .bill-name span.gone{opacity:0;transform:translateY(-.4em)}
+.bill-name .more{color:var(--bone-dim);font-size:.78em;top:.14em}
 .bill-all{list-style:none;display:flex;flex-wrap:wrap;gap:12px 22px;margin-top:clamp(24px,4vh,44px);font-size:12.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
 .bill-all li{transition:color .3s}
 .bill-all li.on{color:var(--crimson-hi)}
-.stage .note{color:var(--muted);font-size:13px;letter-spacing:.04em;margin-top:26px}
+.stage.pinned .bill-all .more{display:none}
+.stage:not(.pinned) .bill-all .more{color:var(--muted);font-weight:600;font-size:.6em;letter-spacing:.04em;align-self:center}
 /* pinned: the sticky screen and the scroll length that drives it */
 .stage.pinned{height:calc(100svh + var(--bill-len,0px))}
 .stage.pinned .stage-pin{position:sticky;top:0;height:100svh;display:flex;align-items:center;padding:80px 0 30px;overflow:hidden}
